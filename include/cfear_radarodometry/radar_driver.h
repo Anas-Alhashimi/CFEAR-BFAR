@@ -21,7 +21,7 @@ using std::cout;
 using std::endl;
 using std::cerr;
 
-typedef enum filter_type{kstrong, CACFAR}filtertype;
+typedef enum filter_type{kstrong, CACFAR, bfar}filtertype;
 
 std::string Filter2str(const filtertype& filter);
 
@@ -40,9 +40,13 @@ public:
     float z_min = 60; // min power
     float range_res = 0.0438;
     int azimuths = 400, k_strongest = 12;
-    int nb_guard_cells = 20, window_size = 10;
+    int nb_guard_cells = 2, window_size = 10;
     float false_alarm_rate = 0.01;
     float min_distance = 2.5, max_distance = 200;
+    //added by Anas
+    //int window_size_ = 12;
+    float offset_factor= 33;
+    float scale_factor = 1.1;
     std::string radar_frameid = "sensor_est", topic_filtered = "/Navtech/Filtered";
     std::string dataset = "oxford";
     filtertype filter_type_ = filtertype::kstrong;
@@ -58,6 +62,10 @@ public:
       param_nh.param<std::string>("topic_filtered", topic_filtered, "/Navtech/Filtered");
       param_nh.param<std::string>("radar_frameid", radar_frameid, "sensor_est");
       param_nh.param<std::string>("dataset", dataset, "oxford");
+      // Added by Anas
+      //param_nh.param<int>("N", window_size_, 12);
+      param_nh.param<float>("offset_factor", offset_factor, 33);
+      param_nh.param<float>("scale_factor", scale_factor, 1.1);      
       std::string filter;
       param_nh.param<std::string>("filter_type", filter, "kstrong");
       filter_type_ = Str2filter(filter);
@@ -77,7 +85,10 @@ public:
       stringStream << "nb guard cells, "<<nb_guard_cells<<endl;
       stringStream << "window size, "<<window_size<<endl;
       stringStream << "false alarm rate, "<<false_alarm_rate<<endl;
-
+      // added by Anas
+      //stringStream << "N, "<<window_size_<<endl;
+      stringStream << "offset_factor, "<<offset_factor<<endl;
+      stringStream << "scale_factor, "<<scale_factor<<endl;
       return stringStream.str();
     }
 

@@ -41,3 +41,21 @@ private:
   double getMean(const cv::Mat &azimuth, const int &start_idx, const int &end_idx) const;
 };
 
+class AzimuthBFAR : public CFARFilter
+{
+private:
+  int window_size_;
+  int nb_guard_cells_;
+  double scale_factor_;
+  double offset_factor_;
+
+public:
+  AzimuthBFAR(const int &window_size = 40, const double &scale_factor = 1, const double &offset_factor = 20, const int &nb_guard_cells = 2,
+                const double &range_resolution = 0.0438, const double &min_distance = 2.5, const double &max_distance = 200.0);
+
+  void getFilteredPointCloud(const cv_bridge::CvImagePtr &radar_image, pcl::PointCloud<pcl::PointXYZI>::Ptr &output_pointcloud) const;
+
+private:
+  double getMean(const cv::Mat &azimuth, const int &start_idx, const int &end_idx) const;
+};
+

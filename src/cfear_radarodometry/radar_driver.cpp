@@ -7,6 +7,8 @@ namespace CFEAR_Radarodometry {
 filtertype Str2filter(const std::string& str){
   if (str=="CA-CFAR")
     return filtertype::CACFAR;
+  if (str=="bfar")
+    return filtertype::bfar;
   else
     return filtertype::kstrong;
 
@@ -16,6 +18,7 @@ std::string Filter2str(const filtertype& filter){
   switch (filter){
   case filtertype::CACFAR: return "CA-CFAR";
   case kstrong: return "kstrong";
+  case filtertype::bfar: return "bfar";// Anas
   }
   return "kstrong";
 }
@@ -55,9 +58,20 @@ void radarDriver::Process(){
     filter.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
   }
   else{
+	  if(par.filter_type_ == filtertype::bfar) {
+		  //cout<<"bfar , bfar , bfar"<<endl;
+    cout<<"BFAR >>> window: "<<par.window_size<<", scale_factor:"<<par.scale_factor<<", offset_factor:"<<par.offset_factor<<", nb_guard:"<<par.nb_guard_cells<<endl;
+    //AzimuthCACFAR filter(par.window_size, par.false_alarm_rate, par.nb_guard_cells, par.range_res, par.z_min , par.min_distance, 400.0);
+    //filter.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
+    
+    //AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
+    AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
+    filter1.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
+  }else{
     StructuredKStrongest filt(cv_polar_image, par.z_min, par.k_strongest, par.min_distance, par.range_res);
     filt.getPeaksFilteredPointCloud(cloud_filtered_, false);
     filt.getPeaksFilteredPointCloud(cloud_filtered_peaks_, true);
+	}
   }
   //Fill header
 

@@ -162,6 +162,10 @@ void ReadOptions(const int argc, char**argv, OdometryKeyframeFuser::Parameters& 
         ("job_nr", po::value<int>()->default_value(-1), "jobnr")
         ("registered_min_keyframe_dist", po::value<double>()->default_value(1.5), "registered_min_keyframe_dist")
         ("z-min", po::value<double>()->default_value(65), "zmin intensity, expected noise level")
+        // Anas
+		("scale_factor",po::value<double>()->default_value(1),"")
+		("offset_factor",po::value<double>()->default_value(40),"")
+		//
         ("radar_ccw", po::value<bool>()->default_value(false),"radar_ccw")
         ("soft_constraint", po::value<bool>()->default_value(false),"soft_constraint")
         ("savepcd", "save_pcd_files")
@@ -187,7 +191,7 @@ void ReadOptions(const int argc, char**argv, OdometryKeyframeFuser::Parameters& 
         ("weight_option", po::value<int>()->default_value(0), "how to weight residuals")
         ("false-alarm-rate", po::value<float>()->default_value(0.01), "CA-CFAR false alarm rate")
         ("nb-guard-cells", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
-        ("nb-window-cells", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
+        ("window_size", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
         ("store_graph", po::value<bool>()->default_value(false),"store_graph")
         ("save_radar_img", po::value<bool>()->default_value(false),"save_radar_img")
         ("bag_path", po::value<std::string>()->default_value("/home/daniel/rosbag/oxford-eval-sequences/2019-01-10-12-32-52-radar-oxford-10k/radar/2019-01-10-12-32-52-radar-oxford-10k.bag"), "bag file to open");
@@ -261,8 +265,15 @@ void ReadOptions(const int argc, char**argv, OdometryKeyframeFuser::Parameters& 
       rad_par.nb_guard_cells = vm["k_strongest"].as<int>();
     if (vm.count("regularization"))
       rad_par.false_alarm_rate = vm["regularization"].as<double>();
-    if (vm.count("covar_scale"))
-      rad_par.window_size = vm["covar_scale"].as<double>();
+    // Anas
+    if (vm.count("window_size"))
+      rad_par.window_size = vm["window_size"].as<int>();
+    if (vm.count("scale_factor"))
+      rad_par.window_size = vm["scale_factor"].as<double>();
+    if (vm.count("offset_factor"))
+      rad_par.window_size = vm["offset_factor"].as<double>();            
+//    if (vm.count("covar_scale"))
+//      rad_par.window_size = vm["covar_scale"].as<double>();
 
 
     p.save_radar_img = vm["save_radar_img"].as<bool>();
