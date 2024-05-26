@@ -190,7 +190,7 @@ void ReadOptions(const int argc, char**argv, OdometryKeyframeFuser::Parameters& 
         ("method_name", po::value<std::string>()->default_value("method"), "method name")
         ("weight_option", po::value<int>()->default_value(0), "how to weight residuals")
         ("false-alarm-rate", po::value<float>()->default_value(0.01), "CA-CFAR false alarm rate")
-        ("nb-guard-cells", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
+        ("nb_guard_cells", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
         ("window_size", po::value<int>()->default_value(10), "CA-CFAR nr guard cells")
         ("store_graph", po::value<bool>()->default_value(false),"store_graph")
         ("save_radar_img", po::value<bool>()->default_value(false),"save_radar_img")
@@ -261,17 +261,17 @@ void ReadOptions(const int argc, char**argv, OdometryKeyframeFuser::Parameters& 
       eval_par.save_pcd = true;
     if (vm.count("weight_option"))
       par.weight_opt = static_cast<weightoption>(vm["weight_option"].as<int>());
-    if (vm.count("k_strongest"))
-      rad_par.nb_guard_cells = vm["k_strongest"].as<int>();
+    if (vm.count("nb_guard_cells"))
+      rad_par.nb_guard_cells = vm["nb_guard_cells"].as<int>();
     if (vm.count("regularization"))
       rad_par.false_alarm_rate = vm["regularization"].as<double>();
     // Anas
     if (vm.count("window_size"))
       rad_par.window_size = vm["window_size"].as<int>();
     if (vm.count("scale_factor"))
-      rad_par.window_size = vm["scale_factor"].as<double>();
+      rad_par.scale_factor = vm["scale_factor"].as<double>();
     if (vm.count("offset_factor"))
-      rad_par.window_size = vm["offset_factor"].as<double>();            
+      rad_par.offset_factor = vm["offset_factor"].as<double>();            
 //    if (vm.count("covar_scale"))
 //      rad_par.window_size = vm["covar_scale"].as<double>();
 

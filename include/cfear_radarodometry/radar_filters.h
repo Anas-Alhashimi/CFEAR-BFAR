@@ -43,7 +43,7 @@ protected:
 // Implementation (1) - insert and restort
 void InsertStrongestK(std::vector<pcl::PointXYZI>& pnts_sorted, const pcl::PointXYZI& p, int k_strongest);
 void k_strongest_filter(cv_bridge::CvImagePtr &cv_polar_image, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int k_strongest, double z_min, double range_res, double min_distance );
-void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int window_size_, double scale_factor, double offset_factor_, double range_res, double min_distance);
+//void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int window_size_, double scale_factor, double offset_factor_, double range_res, double min_distance);
 
 // Implementation (2) use a lookup table
 class kstrongLookup : public RadarFilter

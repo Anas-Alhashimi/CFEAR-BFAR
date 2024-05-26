@@ -1,6 +1,6 @@
 #include "cfear_radarodometry/cfar.h"
 
-// BFAR //////////////////////// old implementation
+/* // BFAR //////////////////////// old implementation
 void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int window_size_, double scale_factor, double offset_factor_, double range_res, double min_distance)
 {
 	if(cloud==NULL)
@@ -66,10 +66,10 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
   const  double min_distance_sqrd = min_distance*min_distance;
   sensor_msgs::ImagePtr msg = polar->toImageMsg();
   float theta;
-  /*if(cv_polar_image->image.rows!=400 || cv_polar_image->image.cols!=3768){
-    std::cout<<"Size error rows: "<<cv_polar_image->image.rows<<", cols:"<<cv_polar_image->image.cols<<std::endl;
-    exit(0);
-  }*/
+  //if(cv_polar_image->image.rows!=400 || cv_polar_image->image.cols!=3768){
+  //  std::cout<<"Size error rows: "<<cv_polar_image->image.rows<<", cols:"<<cv_polar_image->image.cols<<std::endl;
+    //exit(0);
+  }//
   for (int bearing = 0; bearing < polar->image.rows; bearing++){
     theta = ((float)(bearing+1) / polar->image.rows) * 2 * M_PI;
     std::vector<pcl::PointXYZI> pnts_sorted;
@@ -77,9 +77,9 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
       int ind = i+0; //Unsure about this one!
       //double d = range_res*(ind);
 
-      /*if(d < min_distance || d > max_distance){
-        continue;
-      }*/
+      //if(d < min_distance || d > max_distance){
+      //  continue;
+      }//
       pcl::PointXYZI p;
       p.x = range_res * ind * cos(theta);
       p.y = range_res * ind * sin(theta);
@@ -102,16 +102,16 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
 
 
 
-  /*cloud_nofilter->width = (int)cloud_nofilter->points.size();
-  cloud_nofilter->height = 1;
-  cloud_nofilter->header.frame_id = radar_frameid;*/
+  //cloud_nofilter->width = (int)cloud_nofilter->points.size();
+  //cloud_nofilter->height = 1;
+  //cloud_nofilter->header.frame_id = radar_frameid;
 
   pcl_conversions::toPCL(polar->header.stamp, cloud->header.stamp);//pcl_conversions::toPCL(cv_polar_image->header.stamp,cloud->header.stamp);
   //pcl_conversions::toPCL(cv_polar_image->header.stamp, cloud_nofilter->header.stamp);//pcl_conversions::toPCL(cv_polar_image->header.stamp,cloud->header.stamp);
   //FilteredPublisher.publish(cloud);
   //UnfilteredPublisher.publish(cloud_nofilter);
 }
-// end of BFAR
+// end of BFAR*/
 
 /////////////////////////////////// CFAR Filter ////////////////////////////////////////
 
@@ -204,6 +204,18 @@ AzimuthBFAR::AzimuthBFAR(const int &window_size, const double &scale_factor, con
 }
 void AzimuthBFAR::getFilteredPointCloud(const cv_bridge::CvImagePtr &radar_image, pcl::PointCloud<pcl::PointXYZI>::Ptr &output_pointcloud) const
 {
+	/*double scan_float[400][4000] = {{0}};
+	
+    // added by Anas to convert the scan into double and to calculate azimuth mean
+	double scan_mean = 0;
+    for (size_t bearing = 0; bearing < radar_image->image.rows; bearing++){
+		for (size_t i = 0; i < radar_image->image.cols; i++){
+			scan_float[bearing][i] = (double)(radar_image->image.at<uchar>(bearing, i));
+			scan_float[bearing][i] = pow(10.0f,scan_float[bearing][i]/40.0f);
+			scan_mean = scan_mean + scan_float[bearing][i];
+		}
+	}
+		*/
   for(int azimuth_nb = 0; azimuth_nb < radar_image->image.rows; azimuth_nb++)
   {
     cv::Mat azimuth = radar_image->image.row(azimuth_nb);
@@ -212,13 +224,14 @@ void AzimuthBFAR::getFilteredPointCloud(const cv_bridge::CvImagePtr &radar_image
     {
       const double range = range_resolution_ * double(range_bin);
       const double intensity = double(azimuth.at<uchar>(range_bin));
-      if(range > min_distance_ && range < max_distance_ ) // Anas static th not officially part of CA-CFAR but speeds up and makes result more accurate. This
+      const double scaled_intensity = pow(10.0f,intensity/40.0f);
+      if(range > min_distance_ && range < max_distance_  && scaled_intensity > offset_factor_) // Anas static th not officially part of CA-CFAR but speeds up and makes result more accurate. This
       {
         
         const int trailing_window_start = std::max(0, range_bin - nb_guard_cells_ - window_size_);
         const int trailing_window_end = range_bin - nb_guard_cells_;
         const double trailing_mean = getMean(azimuth, trailing_window_start, trailing_window_end);
-		//std::cout<< window_size_<<",";
+		//std::cout<< window_size<<",";
         const int forwarding_window_start = range_bin + nb_guard_cells_;
         const int forwarding_window_end = std::min(azimuth.cols, range_bin + nb_guard_cells_ + window_size_);
         const double forwarding_mean = getMean(azimuth, forwarding_window_start, forwarding_window_end);
@@ -226,7 +239,7 @@ void AzimuthBFAR::getFilteredPointCloud(const cv_bridge::CvImagePtr &radar_image
         const double mean = (trailing_mean + forwarding_mean)/2.0;    // CA-CFAR
         //const double mean std::max(trailing_mean, forwarding_mean); // GO-CFAR
         const double threshold = offset_factor_ + scale_factor_ * mean;
-        const double scaled_intensity = pow(10.0f,intensity/40.0f);
+        
         if(scaled_intensity > threshold)
         {
           pcl::PointXYZI p;
@@ -246,7 +259,8 @@ double AzimuthBFAR::getMean(const cv::Mat &azimuth, const int &start_idx, const 
   double N = 0.;
   for(size_t i = start_idx; i < end_idx; i++)
   {
-    sum += std::pow(double(azimuth.at<uchar>(i)), 2.);
+    //sum += std::pow(double(azimuth.at<uchar>(i)), 2.);
+    sum += std::pow(10.0f,double(azimuth.at<uchar>(i))/40.0f);
     N += 1.;
   }
   return sum / N;

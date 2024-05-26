@@ -37,16 +37,17 @@ public:
   public:
     Parameters() {}
 
-    float z_min = 60; // min power
-    float range_res = 0.0438;
-    int azimuths = 400, k_strongest = 12;
-    int nb_guard_cells = 2, window_size = 10;
-    float false_alarm_rate = 0.01;
-    float min_distance = 2.5, max_distance = 200;
-    //added by Anas
-    //int window_size_ = 12;
-    float offset_factor= 33;
-    float scale_factor = 1.1;
+    double z_min = 60; // min power
+    double range_res = 0.0438;
+    int azimuths = 400;
+    int k_strongest = 12;
+    int nb_guard_cells = 2;
+    int window_size = 10;
+    double false_alarm_rate = 0.01;
+    double min_distance = 2.5;
+    double max_distance = 200;
+    double offset_factor= 20; //added by Anas
+    double scale_factor = 0.5; //added by Anas
     std::string radar_frameid = "sensor_est", topic_filtered = "/Navtech/Filtered";
     std::string dataset = "oxford";
     filtertype filter_type_ = filtertype::kstrong;
@@ -54,18 +55,20 @@ public:
 
     void GetParametersFromRos( ros::NodeHandle& param_nh){
 
-      param_nh.param<float>("range_res", range_res, 0.0438);
-      param_nh.param<float>("z_min", z_min, 60);
-      param_nh.param<float>("min_distance", min_distance, 2.5);
-      param_nh.param<float>("max_distance", max_distance, 130);
+      param_nh.param<double>("range_res", range_res, 0.0438);
+      param_nh.param<double>("z_min", z_min, 60);
+      param_nh.param<double>("min_distance", min_distance, 2.5);
+      param_nh.param<double>("max_distance", max_distance, 130);
       param_nh.param<int>("kstrongest", k_strongest, 12);
       param_nh.param<std::string>("topic_filtered", topic_filtered, "/Navtech/Filtered");
       param_nh.param<std::string>("radar_frameid", radar_frameid, "sensor_est");
       param_nh.param<std::string>("dataset", dataset, "oxford");
       // Added by Anas
       //param_nh.param<int>("N", window_size_, 12);
-      param_nh.param<float>("offset_factor", offset_factor, 33);
-      param_nh.param<float>("scale_factor", scale_factor, 1.1);      
+      param_nh.param<double>("offset_factor", offset_factor, 40);
+      param_nh.param<double>("scale_factor", scale_factor, 0.5);      
+      param_nh.param<int>("window_size", window_size, 10);
+      param_nh.param<int>("nb_guard_cells", nb_guard_cells, 2);
       std::string filter;
       param_nh.param<std::string>("filter_type", filter, "kstrong");
       filter_type_ = Str2filter(filter);

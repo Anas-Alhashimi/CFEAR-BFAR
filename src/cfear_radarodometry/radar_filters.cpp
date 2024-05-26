@@ -22,7 +22,7 @@ bool sortIntensityPair(const std::pair<double,int>& p1, const std::pair<double,i
 
 //////////////////////////////////// Radar Filter ////////////////////////////////////////
 // BFAR
-void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int window_size_, double scale_factor, double offset_factor_, double range_res, double min_distance)
+/*void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud, int window_size_, double scale_factor, double offset_factor_, double range_res, double min_distance)
 {
 	if(cloud==NULL)
 		cloud = pcl::PointCloud<pcl::PointXYZI>::Ptr (new pcl::PointCloud<pcl::PointXYZI>());
@@ -87,10 +87,10 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
   const  double min_distance_sqrd = min_distance*min_distance;
   sensor_msgs::ImagePtr msg = polar->toImageMsg();
   float theta;
-  /*if(cv_polar_image->image.rows!=400 || cv_polar_image->image.cols!=3768){
-    std::cout<<"Size error rows: "<<cv_polar_image->image.rows<<", cols:"<<cv_polar_image->image.cols<<std::endl;
-    exit(0);
-  }*/
+  //if(cv_polar_image->image.rows!=400 || cv_polar_image->image.cols!=3768){
+    //std::cout<<"Size error rows: "<<cv_polar_image->image.rows<<", cols:"<<cv_polar_image->image.cols<<std::endl;
+   // exit(0);
+  //}
   for (int bearing = 0; bearing < polar->image.rows; bearing++){
     theta = ((float)(bearing+1) / polar->image.rows) * 2 * M_PI;
     std::vector<pcl::PointXYZI> pnts_sorted;
@@ -98,9 +98,9 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
       int ind = i+0; //Unsure about this one!
       //double d = range_res*(ind);
 
-      /*if(d < min_distance || d > max_distance){
-        continue;
-      }*/
+      //if(d < min_distance || d > max_distance){
+        //continue;
+      }//
       pcl::PointXYZI p;
       p.x = range_res * ind * cos(theta);
       p.y = range_res * ind * sin(theta);
@@ -123,9 +123,9 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
 
 
 
-  /*cloud_nofilter->width = (int)cloud_nofilter->points.size();
-  cloud_nofilter->height = 1;
-  cloud_nofilter->header.frame_id = radar_frameid;*/
+  //cloud_nofilter->width = (int)cloud_nofilter->points.size();
+  //cloud_nofilter->height = 1;
+  //cloud_nofilter->header.frame_id = radar_frameid;
 
   pcl_conversions::toPCL(polar->header.stamp, cloud->header.stamp);//pcl_conversions::toPCL(cv_polar_image->header.stamp,cloud->header.stamp);
   //pcl_conversions::toPCL(cv_polar_image->header.stamp, cloud_nofilter->header.stamp);//pcl_conversions::toPCL(cv_polar_image->header.stamp,cloud->header.stamp);
@@ -133,7 +133,7 @@ void BFAR_filter(cv_bridge::CvImagePtr &polar, pcl::PointCloud<pcl::PointXYZI>::
   //UnfilteredPublisher.publish(cloud_nofilter);
 }
 // end of BFAR
-
+*/
 void InsertStrongestK(std::vector<pcl::PointXYZI>& pnts_sorted, const pcl::PointXYZI& p, int k_strongest)
 {
   if( pnts_sorted.empty() ){

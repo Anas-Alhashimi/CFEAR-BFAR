@@ -52,21 +52,25 @@ void radarDriver::Process(){
 
   cloud_filtered_ = pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>());
   cloud_filtered_peaks_ = pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>());
+  //cout<<"par: "<<par.window_size<<endl;
   if(par.filter_type_ == filtertype::CACFAR) {
+	  
     cout<<"window: "<<par.window_size<<", par:false alarm:"<<par.false_alarm_rate<<", par:nb_guard:"<<par.nb_guard_cells<<endl;
     AzimuthCACFAR filter(par.window_size, par.false_alarm_rate, par.nb_guard_cells, par.range_res, par.z_min , par.min_distance, 400.0);
     filter.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
   }
   else{
 	  if(par.filter_type_ == filtertype::bfar) {
+		  //par.window_size =10;
+		  //par.nb_guard_cells =2;
 		  //cout<<"bfar , bfar , bfar"<<endl;
-    cout<<"BFAR >>> window: "<<par.window_size<<", scale_factor:"<<par.scale_factor<<", offset_factor:"<<par.offset_factor<<", nb_guard:"<<par.nb_guard_cells<<endl;
-    //AzimuthCACFAR filter(par.window_size, par.false_alarm_rate, par.nb_guard_cells, par.range_res, par.z_min , par.min_distance, 400.0);
-    //filter.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
-    
-    //AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
-    AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
-    filter1.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
+		cout<<"BFAR >>> window: "<<par.window_size<<", scale_factor:"<<par.scale_factor<<", offset_factor:"<<par.offset_factor<<", nb_guard:"<<par.nb_guard_cells<<endl;
+		//AzimuthCACFAR filter(par.window_size, par.false_alarm_rate, par.nb_guard_cells, par.range_res, par.z_min , par.min_distance, 400.0);
+		//filter.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
+		
+		//AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
+		AzimuthBFAR filter1(par.window_size, par.scale_factor, par.offset_factor, par.nb_guard_cells, par.range_res , par.min_distance, 400.0);
+		filter1.getFilteredPointCloud(cv_polar_image, cloud_filtered_);
   }else{
     StructuredKStrongest filt(cv_polar_image, par.z_min, par.k_strongest, par.min_distance, par.range_res);
     filt.getPeaksFilteredPointCloud(cloud_filtered_, false);

@@ -1,0 +1,215 @@
+#!/bin/bash
+
+killall rviz
+pkill rosmaster
+
+SEQUENCE="2019-01-10-12-32-52-radar-oxford-10k"
+
+DATASET="Oxford"
+current_date=`date '+%Y-%m-%d_%H:%M'`
+EVALUATION_description="cfear-1"
+Offset="45.0"
+Scale="0.5"
+export cost_type="P2D"
+Window="20"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+JOB_NR=${11}
+source pars >/dev/null
+#echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+BAG_BASE_PATH="/home/anas/${DATASET}"
+#BAG_BASE_PATH="/media/anas/64F89341F8931082/Datasets/Mulran/${DATASET}"
+
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+echo "${BAG_FILE_PATH}"
+
+
+
+# CFEAR-1
+#export cost_type="P2D"
+export submap_scan_size="10"
+export registered_min_keyframe_dist="1.5"
+export res="3.5"
+export kstrong="12"
+export zmin="70"
+export weight_option="4"
+export weight_intensity="true"
+
+# OTHER PARAMETERS #
+export range_resolution="0.0438"
+export radar_ccw="false" #False for oxford, otherwise true
+export soft_constraint="false"
+export disable_compensate="false"
+
+
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#2---------------------------------------------------------------------
+SEQUENCE="2019-01-16-13-09-37-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#3 -----------------------------------------------------------------
+SEQUENCE="2019-01-17-13-26-39-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#4---------------------------------------------------------------------
+SEQUENCE="2019-01-18-14-14-42-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#5------------------------------------------------------------------
+SEQUENCE="2019-01-18-15-20-12-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#6------------------------------------------------------------------
+SEQUENCE="2019-01-10-11-46-21-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 2
+pkill rosmaster
+sleep 1
+
+#7------------------------------------------------------------------
+SEQUENCE="2019-01-16-11-53-11-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
+
+sleep 1
+pkill rosmaster
+sleep 1
+
+#8------------------------------------------------------------------
+SEQUENCE="2019-01-18-14-46-59-radar-oxford-10k"
+EVAL_BASE_DIR="/home/anas/trash_eval/${DATASET}/${SEQUENCE}/10${cost_type}${Window}"
+BAG_FILE_PATH="${BAG_BASE_PATH}/${SEQUENCE}/radar/${SEQUENCE}.bag"
+source pars >/dev/null
+echo "execute: seq:${SEQUENCE}, base: ${EVAL_BASE_DIR}"
+est_dir="${EVAL_BASE_DIR}/est/"
+gt_dir="${EVAL_BASE_DIR}/gt/"
+mkdir -p "${est_dir}"
+mkdir -p "${gt_dir}"
+#echo "${BAG_FILE_PATH}"
+
+
+pars="--range-res ${range_resolution} --sequence ${SEQUENCE} --radar_ccw ${radar_ccw} --soft_constraint ${soft_constraint} --disable_compensate ${disable_compensate} --cost_type ${cost_type} --submap_scan_size ${submap_scan_size} --registered_min_keyframe_dist ${registered_min_keyframe_dist} --res ${res} --filter-type bfar --offset_factor ${Offset} --scale_factor ${Scale} --nb_guard_cells 2 --window_size ${Window} --k_strongest ${kstrong} --bag_path ${BAG_FILE_PATH} --est_directory ${est_dir} --gt_directory ${gt_dir} --job_nr 1 --z-min ${zmin} --weight_option ${weight_option} --weight_intensity ${weight_intensity} --dataset oxford --store_graph false"
+echo "|||||Estimating odometry with parameters: ${pars}||||"
+roscore& #roslaunch cfear_radarodometry vis.launch&
+sleep 1
+rosrun cfear_radarodometry offline_odometry ${pars} #>/dev/null
