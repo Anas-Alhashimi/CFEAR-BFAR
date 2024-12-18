@@ -1,6 +1,6 @@
 # CFEAR3-BFAR
 ## The latest CFEAR with BFAR fast-coded
-The work is now published in the journal paper: [springer Autonomous Robots](https://link.springer.com/article/10.1007/s10514-024-10176-2) or
+The work is now published in the Springer Autonomous Robots journal [BFAR: improving radar odometry estimation using a bounded false alarm rate detector](https://link.springer.com/article/10.1007/s10514-024-10176-2) or
 [arXiv](https://arxiv.org/abs/2109.09669)
 
 <details>
