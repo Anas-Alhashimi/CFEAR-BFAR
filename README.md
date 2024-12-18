@@ -15,8 +15,8 @@ The work is now published in the Springer Autonomous Robots journal [BFAR: impro
   number={8},
   pages={1--16},
   year={2024},
-  publisher={Springer}
-}
+  publisher={Springer}}
+
 ```
 </details> 
 
