@@ -1,6 +1,6 @@
 # CFEAR3-BFAR
 ## The latest CFEAR with BFAR fast-coded
-## The work is now published in the journal paper: [springer Autonomous Robots]([https://ieeexplore.ieee.org/document/9969174](https://link.springer.com/article/10.1007/s10514-024-10176-2)) or
+The work is now published in the journal paper: [springer Autonomous Robots]([https://ieeexplore.ieee.org/document/9969174](https://link.springer.com/article/10.1007/s10514-024-10176-2)) or
 [arXiv]([https://arxiv.org/abs/2211.02445](https://arxiv.org/abs/2109.09669))
 
 <details>
