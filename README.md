@@ -18,7 +18,8 @@ The work is now published in the Springer Autonomous Robots journal [BFAR: impro
   publisher={Springer}}
 
 ```
-</details> 
+</details>
+
 CFEAR [code](https://github.com/dan11003/CFEAR_Radarodometry_code_public) 
 ## Contact
 * If you have any questions, feel free to contact me:
